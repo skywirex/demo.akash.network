@@ -1,17 +1,17 @@
-baseurl = "/"
-title = "Demo static site on Akash"
-languageCode = "en"
-DefaultContentLanguage = "en"
-paginate = "5" # Number of posts per page
+baseurl = "https://example.com"
+title = "Hugo DPSG"
+languageCode = "de"
+DefaultContentLanguage = "de"
+paginate = "10" # Number of posts per page
 theme = "hugo-dpsg"
 
 [Author] # Used in authorbox
-  name = "DEMO.AKASH"
-  bio = "Akash Network is the world's first open source cloud."
+  name = "Scout Master"
+  bio = "The Scout Master is the leader of this local scout group"
   avatar = "img/avatar.png"
 
 [Params]
-  description = "Welcome to our website!" # Site description. Used in meta description
+  description = "Welcome to our scout group!" # Site description. Used in meta description
   copyright = "DGSP local group" # Footer copyright holder, otherwise will use site title
   opengraph = true # Enable OpenGraph if true
   schema = true # Enable Schema
@@ -26,7 +26,7 @@ theme = "hugo-dpsg"
   dateformat = "02.01.2006" # Change the format of dates
 
 [Params.style.vars]
-  highlightColor = "#FF0F17" # Override main theme color
+  highlightColor = "#003056" # Override main theme color
 
 [Params.logo]
   image = "img/placeholder.png" # Logo image. Path relative to "static"
