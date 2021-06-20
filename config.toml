@@ -29,10 +29,10 @@ theme = "hugo-dpsg"
   highlightColor = "#FF0F17" # Override main theme color
 
 [Params.logo]
-  image = "img/placeholder.png" # Logo image. Path relative to "static"
+  image = "img/akash-logo.png" # Logo image. Path relative to "static"
   header = "img/header.jpg" # Header image. Path relative to "static"
-  title = "Hugo DPSG" # Logo title, otherwise will use site title
-  subtitle = "Welcome to our group site" # Logo subtitle
+  title = "AKASH.network" # Logo title, otherwise will use site title
+  subtitle = "Welcome to the world's first open source cloud!" # Logo subtitle
 
 [Params.sidebar]
   home = "right" # Configure layout for home page
