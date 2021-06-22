@@ -1,6 +1,7 @@
 #!/bin/bash
 
+VERSION=$("latest")
 COMMIT=$(git rev-parse --short HEAD)
 
-docker tag $IMAGE_NAME $DOCKER_REPO:latest-$COMMIT
+docker tag $IMAGE_NAME $DOCKER_REPO:$VERSION-$COMMIT
 docker push $DOCKER_REPO:$VERSION-$COMMIT
