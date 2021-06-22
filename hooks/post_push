@@ -1,4 +1,7 @@
 #!/bin/bash
 
-docker tag $IMAGE_NAME $DOCKER_REPO:$SOURCE_COMMIT
-docker push $DOCKER_REPO:$SOURCE_COMMIT
+VERSION=$(cat version)
+COMMIT=$(git rev-parse --short HEAD)
+
+docker tag $IMAGE_NAME $DOCKER_REPO:$VERSION-$COMMIT
+docker push $DOCKER_REPO:$VERSION-$COMMIT
