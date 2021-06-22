@@ -1,0 +1,47 @@
+name: Update Deployment on Akash
+env:
+  AKASH_HOME: /home/runner/.akash
+  AKASH_NODE: tcp://rpc0.mainnet.akash.network:26657
+  AKASH_GAS: auto
+  AKASH_GAS_ADJUSTMENT: 1.15
+  AKASH_GAS_PRICES: 0.025uakt
+  AKASH_SIGN_MODE: amino-json
+  AKASH_CHAIN_ID: akashnet-2
+  AKASH_FROM: you_from
+  AKASH_KEYRING_BACKEND: test
+  AKASH_PROVIDER: akash12345
+  AKASH_DSEQ: 1
+jobs:
+  publish-on-akash:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: installing toolset
+        run: sudo apt install wget curl jq
+      - name: install akash binaries
+        run: |-
+          wget $(curl -H "Authorization: token ${{secrets.GITHUB_TOKEN}}" -s https://api.github.com/repos/ovrclk/akash/releases/latest | jq -r ".assets[] | select(.name | test(\"linux_amd64.deb\")) | .browser_download_url") -O akash.deb
+          sudo dpkg -i akash.deb
+          wget $(curl -H "Authorization: token ${{secrets.GITHUB_TOKEN}}" -s https://api.github.com/repos/ovrclk/e2e-production/releases/latest | jq -r ".assets[] | select(.name | test(\"linux_amd64.deb\")) | .browser_download_url") -O e2e.deb
+          sudo dpkg -i e2e.deb
+      - name: import key
+        run: |-
+          echo "${{secrets.AKASH_WALLET_KEY}}" > key.key
+          echo "${{secrets.AKASH_WALLET_KEY_PASSWORD}}" | akash keys import ${{env.AKASH_FROM}} key.key
+          rm key.key
+      - name: import certificate
+        run: echo "${{secrets.AKASH_DEPLOY_CERTIFICATE}}" > ${{env.AKASH_HOME}}/$(akash keys show ${{env.AKASH_FROM}} --output=json | jq -r ".address").pem
+      - name: update deploy.yml
+        run: |-
+          git fetch --prune --unshallow
+          git remote update
+          export LATEST_TAG=$(git describe --abbrev=0 --tags)
+          sed -i -e 's/${tag}/'$LATEST_TAG'/g' deploy.yml
+      - name: update deployment
+        run: |-
+          unset AKASH_GAS
+          akash tx deployment update deploy.yml --dseq ${{env.AKASH_DSEQ}} --from ${{env.AKASH_FROM}} --chain-id ${{env.AKASH_CHAIN_ID}}  --node ${{env.AKASH_NODE}} -y
+          akash provider send-manifest deploy.yml --node ${{env.AKASH_NODE}} --from ${{env.AKASH_FROM}} --provider ${{env.AKASH_PROVIDER}} --dseq $AKASH_DSEQ
+      - name: query deployment
+        run: |-
+          akash provider lease-status --node ${{env.AKASH_NODE}} --dseq ${{env.AKASH_DSEQ}} --from ${{env.AKASH_FROM}} --provider ${{env.AKASH_PROVIDER}}
