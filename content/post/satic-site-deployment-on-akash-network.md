@@ -19,7 +19,7 @@ tags:
 
 You can host your website on Akash network very tiny amount. At the time of writing the payment of Akash network can be done only with uAKT (1ukat = 10^-6AKT), but soon the network will support the payment in the other currency as stated in the white paper. You can see more detail about the current price in $USD monthly [here](Https://www.akashlytics.com/price-compare).
 
-Due to the long story, this article mainly focuses on section `IV. Deploy your website on Akash network`
+Due to the long story, this article mainly focuses on section `V. Deploy your website on Akash network`
 
 ### II. Prerequisites
 
@@ -125,7 +125,7 @@ Ensure your docker image work as expected by running a container on localhost to
 Open your browser and type `<IP>:8080` to check your website.
 
 
-### IV. Deloy your website on Akash network
+### V. Deploy your website on Akash network
 
 The most important and interesting part is here.
 
